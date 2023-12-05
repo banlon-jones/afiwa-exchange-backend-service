@@ -1,9 +1,19 @@
-import { Body, Controller, Get, Param, Post, Put, Req } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Put,
+  Req,
+  UseGuards,
+} from '@nestjs/common';
 import CreateUserDto from '../../dtos/createUser.dto';
 import { UserService } from '../../services/user/user.service';
 import { ApiTags } from '@nestjs/swagger';
 import UpdateUserDto from '../../dtos/updateUser.dto';
 import { EntityValidator } from '../../utils/entityValidator';
+import { AuthGuard } from '../../guards/auth/auth.guard';
 
 @ApiTags('users')
 @Controller('api/')
@@ -13,6 +23,7 @@ export class UserController {
     private readonly entityValidator: EntityValidator,
   ) {}
 
+  @UseGuards(AuthGuard)
   @Get('protected/user/all')
   public async getAllUsers(): Promise<any> {
     return await this.userService.getAllUsers();
@@ -23,12 +34,9 @@ export class UserController {
     return await this.entityValidator.getUserById(id);
   }
 
-  @Get('protected/user/transactions')
-  public async getUserTransactions(@Req() req: any) {
-    const currentUser = await this.userService.getCurrentUser(
-      req.headers.authorization.replace('Bearer ', ''),
-    );
-    return this.userService.getUserTransactions(currentUser.email);
+  @Get('protected/user/')
+  public async getUserByEmail(@Req() req: any): Promise<any> {
+    return await this.userService.getUserByEmail(req.user.email);
   }
   @Post('public/user/signup')
   public createUser(@Body() userDetails: CreateUserDto): any {

@@ -7,15 +7,18 @@ import { BaseEntity } from './abstract-entity';
 class TransactionEntity extends BaseEntity {
   transactionId: string;
   @Column()
-  sendCurrencyId: string;
+  from: string;
   @Column()
-  receivedCurrencyId: string;
+  to: string;
   @Column({
     type: 'enum',
     enum: Status,
     default: Status.pending,
   })
   status: string;
+
+  @Column()
+  amount: number;
 
   @Column()
   exchangeRate: number;

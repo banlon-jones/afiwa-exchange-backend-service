@@ -23,6 +23,10 @@ export class EntityValidator {
     }
   }
 
+  public getUserByEmail(email: string): any {
+    return this.userRepository.findOneBy({ email });
+  }
+
   public async getTransactionById(id: string) {
     try {
       return await this.transactionRepository.findOneBy({ id });

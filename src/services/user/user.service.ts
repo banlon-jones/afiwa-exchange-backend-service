@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { FirebaseAppService } from '../firebase-app/firebase-app.service';
 import CreateUserDto from '../../dtos/createUser.dto';
 import UserEntity from '../../Entities/user.entity';
@@ -17,11 +17,6 @@ export class UserService {
 
   public async getAllUsers() {
     return await this.userRepository.find();
-  }
-
-  public async getUserTransactions(id: string) {
-    const user = await this.userRepository.findOneBy({ id });
-    return user.transactions;
   }
   public async createUser(userdetails: CreateUserDto): Promise<any> {
     try {
@@ -66,7 +61,11 @@ export class UserService {
     }
   }
 
-  public getCurrentUser(accessToken: string) {
-    return this.firebaseApp.getAuth().verifyIdToken(accessToken);
+  async getUserByEmail(email) {
+    try {
+      return this.userRepository.findBy({ email });
+    } catch (e) {
+      throw new HttpException(e, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 }

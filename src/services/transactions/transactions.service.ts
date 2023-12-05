@@ -1,10 +1,10 @@
-import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DataSource, Repository } from 'typeorm';
 import TransactionEntity from '../../Entities/transaction.entity';
 import { Status } from '../../constants/status';
 import CreateTransactionDto from '../../dtos/createTransaction.dto';
-import { EntityValidator } from "../../utils/entityValidator";
+import { EntityValidator } from '../../utils/entityValidator';
 
 @Injectable()
 export class TransactionsService {
@@ -19,7 +19,6 @@ export class TransactionsService {
     return await this.transactionRepository.find();
   }
 
-
   public async updateTransactionStatus(status: Status, transactionId: string) {
     try {
       return await this.transactionRepository.update(transactionId, {
@@ -30,21 +29,37 @@ export class TransactionsService {
     }
   }
 
-  public async createTransaction(transactionDetails: CreateTransactionDto) {
+  public async createTransaction(
+    transactionDetails: CreateTransactionDto,
+    email: string,
+  ) {
     try {
+      const user = await this.entityValidator.getUserByEmail(email);
       const transaction: TransactionEntity = {
+        amount: transactionDetails.amount,
         email: transactionDetails.email,
-        exchangeRate: 0,
-        receivedCurrencyId: transactionDetails.receivedCurrencyId,
-        sendCurrencyId: transactionDetails.sendCurrencyId,
+        exchangeRate: await this.convertCurrency(
+          transactionDetails.to,
+          transactionDetails.from,
+        ),
+        from: transactionDetails.from,
         status: Status.pending,
+        to: transactionDetails.to,
         transactionId: String(Math.floor(Math.random() * Date.now())),
+        user: user,
         walletAddress: transactionDetails.walletAddress,
-        walletName: transactionDetails.walletName,
-        user: undefined;
+        walletName: transactionDetails.walletName
       };
+      console.log(transaction);
+      return this.transactionRepository.save(transaction);
     } catch (e) {
       throw new HttpException(e, HttpStatus.BAD_REQUEST);
     }
+  }
+
+  async convertCurrency(to: string, from: string) {
+    const toCurrency = await this.entityValidator.getCurrency(to);
+    const fromCurrency = await this.entityValidator.getCurrency(from);
+    return toCurrency.rate / fromCurrency.rate;
   }
 }

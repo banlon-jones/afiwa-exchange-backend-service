@@ -1,13 +1,17 @@
-import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
 class CreateUserDto {
   @IsString()
   @IsNotEmpty()
-  sendCurrencyId: string;
+  from: string;
 
   @IsString()
   @IsNotEmpty()
-  receivedCurrencyId: string;
+  to: string;
+
+  @IsNumber()
+  @IsNotEmpty()
+  amount: number;
 
   @IsNotEmpty()
   @IsEmail()

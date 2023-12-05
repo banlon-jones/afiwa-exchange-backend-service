@@ -32,6 +32,9 @@ class UserEntity extends BaseEntity {
   @OneToMany(
     () => TransactionEntity,
     (transactionEntity) => transactionEntity.user,
+    {
+      eager: true,
+    },
   )
   transactions?: TransactionEntity[];
 }
