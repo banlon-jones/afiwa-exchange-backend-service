@@ -25,11 +25,10 @@ import { EntityValidator } from "./utils/entityValidator";
   imports: [
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: 'localhost',
-      port: 3306,
-      username: 'root',
-      password: '',
-      database: 'afiwa-db',
+      host: 'dev-db.c4wcwi0fvlx4.us-east-1.rds.amazonaws.com',
+      username: 'admin',
+      password: 'ghakanyuy',
+      database: 'afiwa-dev',
       entities: [UserEntity, CurrencyEntity, TransactionEntity],
       synchronize: true,
       autoLoadEntities: true,
