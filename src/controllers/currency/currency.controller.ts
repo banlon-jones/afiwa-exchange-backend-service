@@ -33,7 +33,7 @@ export class CurrencyController {
     return this.currencyService.create(createCurrency);
   }
   @UseGuards(AuthGuard)
-  @Put('protected/currency')
+  @Put('protected/currency/:id')
   public updateCurrency(
     @Param('id') id: string,
     @Body() currencyDto: CreateCurrencyDto,

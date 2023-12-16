@@ -23,6 +23,10 @@ export class UserController {
     private readonly entityValidator: EntityValidator,
   ) {}
 
+  @Post('public/user/signup')
+  public createUser(@Body() userDetails: CreateUserDto): any {
+    return this.userService.createUser(userDetails);
+  }
   @UseGuards(AuthGuard)
   @Get('protected/user/all')
   public async getAllUsers(): Promise<any> {
@@ -38,11 +42,6 @@ export class UserController {
   public async getUserByEmail(@Req() req: any): Promise<any> {
     return await this.userService.getUserByEmail(req.user.email);
   }
-  @Post('public/user/signup')
-  public createUser(@Body() userDetails: CreateUserDto): any {
-    return this.userService.createUser(userDetails);
-  }
-
   @Put('protected/user/update/:id')
   public async updateUserProfile(
     @Param() param: any,

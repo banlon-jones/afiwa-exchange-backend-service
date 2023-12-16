@@ -63,7 +63,7 @@ export class UserService {
 
   async getUserByEmail(email) {
     try {
-      return this.userRepository.findBy({ email });
+      return this.userRepository.findOneBy({ email });
     } catch (e) {
       throw new HttpException(e, HttpStatus.INTERNAL_SERVER_ERROR);
     }

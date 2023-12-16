@@ -19,7 +19,7 @@ import { TransactionsController } from './controllers/transactions/transactions.
 import { TransactionsService } from './services/transactions/transactions.service';
 import UserEntity from './Entities/user.entity';
 import TransactionEntity from './Entities/transaction.entity';
-import { EntityValidator } from "./utils/entityValidator";
+import { EntityValidator } from './utils/entityValidator';
 
 @Module({
   imports: [
