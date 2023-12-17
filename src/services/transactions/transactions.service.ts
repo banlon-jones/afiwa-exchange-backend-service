@@ -34,23 +34,24 @@ export class TransactionsService {
     email: string,
   ) {
     try {
+      const rate = await this.convertCurrency(
+        transactionDetails.to,
+        transactionDetails.from,
+      );
       const user = await this.entityValidator.getUserByEmail(email);
       const transaction: TransactionEntity = {
         amount: transactionDetails.amount,
         email: transactionDetails.email,
-        exchangeRate: await this.convertCurrency(
-          transactionDetails.to,
-          transactionDetails.from,
-        ),
+        exchangeRate: rate,
         from: transactionDetails.from,
         status: Status.pending,
         to: transactionDetails.to,
+        receivedAmount: rate * transactionDetails.amount,
         transactionId: String(Math.floor(Math.random() * Date.now())),
         user: user,
         walletAddress: transactionDetails.walletAddress,
-        walletName: transactionDetails.walletName
+        walletName: transactionDetails.walletName,
       };
-      console.log(transaction);
       return this.transactionRepository.save(transaction);
     } catch (e) {
       throw new HttpException(e, HttpStatus.BAD_REQUEST);
@@ -60,6 +61,6 @@ export class TransactionsService {
   async convertCurrency(to: string, from: string) {
     const toCurrency = await this.entityValidator.getCurrency(to);
     const fromCurrency = await this.entityValidator.getCurrency(from);
-    return toCurrency.rate / fromCurrency.rate;
+    return fromCurrency.rate / toCurrency.rate;
   }
 }

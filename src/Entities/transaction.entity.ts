@@ -5,6 +5,7 @@ import { BaseEntity } from './abstract-entity';
 
 @Entity('transactions')
 class TransactionEntity extends BaseEntity {
+  @Column({ unique: true })
   transactionId: string;
   @Column()
   from: string;
@@ -20,11 +21,14 @@ class TransactionEntity extends BaseEntity {
   @Column()
   amount: number;
 
-  @Column()
+  @Column('decimal', { precision: 6, scale: 6 })
   exchangeRate: number;
 
   @Column()
   email: string;
+
+  @Column('decimal', { precision: 6, scale: 6 })
+  receivedAmount: number;
 
   @Column()
   walletAddress: string;
