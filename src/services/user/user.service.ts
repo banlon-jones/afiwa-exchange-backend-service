@@ -22,11 +22,11 @@ export class UserService {
     try {
       const firebaseUser = await this.firebaseApp.getAuth().createUser({
         disabled: false,
-        displayName: userdetails.displayName,
+        displayName: userdetails?.displayName,
         email: userdetails.email,
         emailVerified: false,
         password: userdetails.password,
-        phoneNumber: userdetails.phoneNumber,
+        phoneNumber: userdetails?.phoneNumber,
       });
       const userEntity: UserEntity = {
         name: firebaseUser.displayName,

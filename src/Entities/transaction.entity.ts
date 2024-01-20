@@ -21,14 +21,14 @@ class TransactionEntity extends BaseEntity {
   @Column()
   amount: number;
 
-  @Column('decimal', { precision: 6, scale: 6 })
-  exchangeRate: number;
+  @Column()
+  exchangeRate: string;
 
   @Column()
   email: string;
 
-  @Column('decimal', { precision: 6, scale: 6 })
-  receivedAmount: number;
+  @Column()
+  receivedAmount: string;
 
   @Column()
   walletAddress: string;

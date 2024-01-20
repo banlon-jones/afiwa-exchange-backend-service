@@ -6,18 +6,14 @@ class CreateUserDto {
   @IsEmail()
   @ApiProperty()
   email: string;
-  @IsString()
-  @IsNotEmpty()
   @ApiProperty()
-  phoneNumber: string;
+  phoneNumber?: string;
   @IsNotEmpty()
   @IsString()
   @ApiProperty()
   password: string;
-  @IsNotEmpty()
-  @IsString()
   @ApiProperty()
-  displayName: string;
+  displayName?: string;
 }
 
 export default CreateUserDto;

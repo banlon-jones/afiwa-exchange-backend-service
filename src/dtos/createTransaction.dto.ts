@@ -1,6 +1,6 @@
-import { IsEmail, IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { IsDecimal, IsEmail, IsNotEmpty, IsString } from 'class-validator';
 
-class CreateUserDto {
+class CreateTransactionDto {
   @IsString()
   @IsNotEmpty()
   from: string;
@@ -9,7 +9,6 @@ class CreateUserDto {
   @IsNotEmpty()
   to: string;
 
-  @IsNumber()
   @IsNotEmpty()
   amount: number;
 
@@ -26,4 +25,4 @@ class CreateUserDto {
   walletName: string;
 }
 
-export default CreateUserDto;
+export default CreateTransactionDto;

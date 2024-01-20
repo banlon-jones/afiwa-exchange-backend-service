@@ -16,7 +16,7 @@ export class TransactionsService {
   ) {}
 
   public async getAllTransactions() {
-    return await this.transactionRepository.find();
+    return await this.transactionRepository.find({order: {createdAt: "DESC"}});
   }
 
   public async updateTransactionStatus(status: Status, transactionId: string) {
@@ -42,11 +42,11 @@ export class TransactionsService {
       const transaction: TransactionEntity = {
         amount: transactionDetails.amount,
         email: transactionDetails.email,
-        exchangeRate: rate,
+        exchangeRate: String(rate),
         from: transactionDetails.from,
         status: Status.pending,
         to: transactionDetails.to,
-        receivedAmount: rate * transactionDetails.amount,
+        receivedAmount: String(rate * transactionDetails.amount),
         transactionId: String(Math.floor(Math.random() * Date.now())),
         user: user,
         walletAddress: transactionDetails.walletAddress,
