@@ -3,4 +3,5 @@ export class CreateCurrencyDto {
   rate: string;
   logo: string;
   wallet: string;
+  active: string;
 }

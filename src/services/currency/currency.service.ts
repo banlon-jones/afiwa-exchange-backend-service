@@ -13,6 +13,7 @@ export class CurrencyService {
 
   async create(createCurrencyDto: CreateCurrencyDto): Promise<any> {
     const currency: CurrencyEntity = {
+      active: 'true',
       wallet: createCurrencyDto.wallet,
       logo: createCurrencyDto.logo,
       name: createCurrencyDto.name,

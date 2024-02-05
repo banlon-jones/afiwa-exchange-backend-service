@@ -16,7 +16,9 @@ export class TransactionsService {
   ) {}
 
   public async getAllTransactions() {
-    return await this.transactionRepository.find({order: {createdAt: "DESC"}});
+    return await this.transactionRepository.find({
+      order: { createdAt: 'DESC' },
+    });
   }
 
   public async updateTransactionStatus(status: Status, transactionId: string) {
